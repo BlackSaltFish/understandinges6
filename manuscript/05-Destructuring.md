@@ -39,22 +39,22 @@ console.log(name);      // "foo"
 
 In this code, the value of `node.type` is stored in a variable called `type` and the value of `node.name` is stored in a variable called `name`. This syntax is the same as the object literal property initializer shorthand introduced in Chapter 4. The identifiers `type` and `name` are both declarations of local variables and the properties to read the value from on the `node` object.
 
-A> #### Don't Forget the Initializer
-A>
-A>When using destructuring to declare variables using `var`, `let`, or `const`, you must supply an initializer (the value after the equals sign). The following lines of code will all throw syntax errors due to a missing initializer:
-A>
-A>```js
-A>// syntax error!
-A>var { type, name };
-A>
-A>// syntax error!
-A>let { type, name };
-A>
-A>// syntax error!
-A>const { type, name };
-A>```
-A>
-A>While `const` always requires an initializer, even when using nondestructured variables, `var` and `let` only require initializers when using destructuring.
+> #### Don't Forget the Initializer
+>
+>When using destructuring to declare variables using `var`, `let`, or `const`, you must supply an initializer (the value after the equals sign). The following lines of code will all throw syntax errors due to a missing initializer:
+>
+>```js
+>// syntax error!
+>var { type, name };
+>
+>// syntax error!
+>let { type, name };
+>
+>// syntax error!
+>const { type, name };
+>```
+>
+>While `const` always requires an initializer, even when using nondestructured variables, `var` and `let` only require initializers when using destructuring.
 
 #### Destructuring Assignment
 
@@ -99,7 +99,7 @@ console.log(name);      // "foo"
 
 The `outputInfo()` function is called with a destructuring assignment expression. The expression evaluates to `node` because that is the value of the right side of the expression. The assignment to `type` and `name` both behave as normal and `node` is passed into `outputInfo()`.
 
-W> An error is thrown when the right side of the destructuring assignment expression (the expression after `=`) evaluates to `null` or `undefined`. This happens because any attempt to read a property of `null` or `undefined` results in a runtime error.
+> **Warn** An error is thrown when the right side of the destructuring assignment expression (the expression after `=`) evaluates to `null` or `undefined`. This happens because any attempt to read a property of `null` or `undefined` results in a runtime error.
 
 #### Default Values
 
@@ -229,16 +229,16 @@ In this version of the code, `node.loc.start` is stored in a new local variable 
 
 Object destructuring is very powerful and has a lot of options, but array destructuring offers some unique capabilities that allow you to extract information from arrays.
 
-A> #### Syntax Gotcha
-A>
-A>Be careful when using nested destructuring because you can inadvertently create a statement that has no effect. Empty curly braces are legal in object destructuring, however, they don't do anything. For example:
-A>
-A>```js
-A>// no variables declared!
-A>let { loc: {} } = node;
-A>```
-A>
-A>There are no bindings declared in this statement. Due to the curly braces on the right, `loc` is used as a location to inspect rather than a binding to create. In such a case, it's likely that the intent was to use `=` to define a default value rather than `:` to define a location. It's possible that this syntax will be made illegal in the future, but for now, this is a gotcha to look out for.
+> #### Syntax Gotcha
+>
+>Be careful when using nested destructuring because you can inadvertently create a statement that has no effect. Empty curly braces are legal in object destructuring, however, they don't do anything. For example:
+>
+>```js
+>// no variables declared!
+>let { loc: {} } = node;
+>```
+>
+>There are no bindings declared in this statement. Due to the curly braces on the right, `loc` is used as a location to inspect rather than a binding to create. In such a case, it's likely that the intent was to use `=` to define a default value rather than `:` to define a location. It's possible that this syntax will be made illegal in the future, but for now, this is a gotcha to look out for.
 
 ## Array Destructuring
 
@@ -267,7 +267,7 @@ console.log(thirdColor);        // "blue"
 
 This code uses a destructuring assignment to retrieve the third item in `colors`. The commas preceding `thirdColor` in the pattern are placeholders for the array items that come before it. By using this approach, you can easily pick out values from any number of slots in the middle of an array without needing to provide variable names for them.
 
-W> Similar to object destructuring, you must always provide an initializer when using array destructuring with `var`, `let`, or `const`.
+> **Warn** Similar to object destructuring, you must always provide an initializer when using array destructuring with `var`, `let`, or `const`.
 
 #### Destructuring Assignment
 
@@ -317,7 +317,7 @@ console.log(b);     // 1
 
 The array destructuring assignment in this example looks like a mirror image. The left side of the assignment (before the equals sign) is a destructuring pattern just like those in the other array destructuring examples. The right side is an array literal that is temporarily created for the swap. The destructuring happens on the temporary array, which has the values of `b` and `a` copied into its first and second positions. The effect is that the variables have swapped values.
 
-W> Like object destructuring assignment, an error is thrown when the right side of an array destructured assignment expression evaluates to `null` or `undefined`.
+> **Warn** Like object destructuring assignment, an error is thrown when the right side of an array destructured assignment expression evaluates to `null` or `undefined`.
 
 #### Default Values
 
@@ -390,7 +390,7 @@ console.log(clonedColors);      //"[red,green,blue]"
 
 In this example, rest items are used to copy values from the `colors` array into the `clonedColors` array. While it's a matter of perception as to whether this technique makes the developer's intent clearer than using the `concat()` method, this is a useful ability to be aware of.
 
-W> Rest items must be the last entry in the destructured array and cannot be followed by a comma. Including a comma after rest items is a syntax error.
+> **Warn** Rest items must be the last entry in the destructured array and cannot be followed by a comma. Including a comma after rest items is a syntax error.
 
 ## Mixed Destructuring
 
@@ -467,7 +467,7 @@ setCookie("type", "js", {
 
 This function behaves similarly to the previous example, but now, the third argument uses destructuring to pull out the necessary data. The parameters outside the destructured parameter are clearly expected, and at the same time, it's clear to someone using `setCookie()` what options are available in terms of extra arguments. And of course, if the third argument is required, the values it should contain are crystal clear. The destructured parameters also act like regular parameters in that they are set to `undefined` if they are not passed.
 
-A>Destructured parameters have all of the capabilities of destructuring that you've learned so far in this chapter. You can use default values, mix object and array patterns, and use variable names that differ from the properties you're reading from.
+>Destructured parameters have all of the capabilities of destructuring that you've learned so far in this chapter. You can use default values, mix object and array patterns, and use variable names that differ from the properties you're reading from.
 
 ### Destructured Parameters are Required
 

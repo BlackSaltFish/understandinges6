@@ -129,7 +129,7 @@ An internal `[[PromiseState]]` property is set to `"pending"`, `"fulfilled"`, or
 
 The `then()` method is present on all promises and takes two arguments. The first argument is a function to call when the promise is fulfilled. Any additional data related to the asynchronous operation is passed to this fulfillment function. The second argument is a function to call when the promise is rejected. Similar to the fulfillment function, the rejection function is passed any additional data related to the rejection.
 
-I> Any object that implements the `then()` method in this way is called a *thenable*. All promises are thenables, but not all thenables are promises.
+> Any object that implements the `then()` method in this way is called a *thenable*. All promises are thenables, but not all thenables are promises.
 
 Both arguments to `then()` are optional, so you can listen for any combination of fulfillment and rejection. For example, consider this set of `then()` calls:
 
@@ -193,7 +193,7 @@ promise.then(function(contents) {
 
 In this code, the fulfillment handler adds another fulfillment handler to the same promise. The promise is already fulfilled at this point, so the new fulfillment handler is added to the job queue and called when ready. Rejection handlers work the same way.
 
-I> Each call to `then()` or `catch()` creates a new job to be executed when the promise is resolved. But these jobs end up in a separate job queue that is reserved strictly for promises. The precise details of this second job queue aren't important for understanding how to use promises so long as you understand how job queues work in general.
+> Each call to `then()` or `catch()` creates a new job to be executed when the promise is resolved. But these jobs end up in a separate job queue that is reserved strictly for promises. The precise details of this second job queue aren't important for understanding how to use promises so long as you understand how job queues work in general.
 
 ### Creating Unsettled Promises
 
@@ -334,7 +334,7 @@ promise.catch(function(value) {
 
 Any additional rejection handlers added to this promise would be called, but not fulfillment handlers.
 
-I> If you pass a promise to either the `Promise.resolve()` or `Promise.reject()` methods, the promise is returned without modification.
+> If you pass a promise to either the `Promise.resolve()` or `Promise.reject()` methods, the promise is returned without modification.
 
 #### Non-Promise Thenables
 
@@ -660,7 +660,7 @@ p1.catch(function(error) {
 
 Here, the executor throws an error then triggers the `p1` promise's rejection handler. That handler then throws another error that is caught by the second promise's rejection handler. The chained promise calls are aware of errors in other promises in the chain.
 
-I> Always have a rejection handler at the end of a promise chain to ensure that you can properly handle any errors that may occur.
+> Always have a rejection handler at the end of a promise chain to ensure that you can properly handle any errors that may occur.
 
 ### Returning Values in Promise Chains
 
@@ -1107,21 +1107,21 @@ This `run()` function can run any generator that uses `yield` to achieve asynchr
 
 The only concern is ensuring that asynchronous functions like `readFile()` return a promise that correctly identifies its state. For Node.js built-in methods, that means you'll have to convert those methods to return promises instead of using callbacks.
 
-A> ### Future Asynchronous Task Running
-A>
-A> At the time of my writing, there is ongoing work around bringing a simpler syntax to asynchronous task running in JavaScript. Work is progressing on an `await` syntax that would closely mirror the promise-based example in the preceding section. The basic idea is to use a function marked with `async` instead of a generator and use `await` instead of `yield` when calling a function, such as:
-A>
-A> ```js
-A> (async function() {
-A>     let contents = await readFile("config.json");
-A>     doSomethingWith(contents);
-A>     console.log("Done");
-A> })();
-A> ```
-A>
-A> The `async` keyword before `function` indicates that the function is meant to run in an asynchronous manner. The `await` keyword signals that the function call to `readFile("config.json")` should return a promise, and if it doesn't, the response should be wrapped in a promise. Just as with the implementation of `run()` in the preceding section, `await` will throw an error if the promise is rejected and otherwise return the value from the promise. The end result is that you get to write asynchronous code as if it were synchronous without the overhead of managing an iterator-based state machine.
-A>
-A> The `await` syntax is expected to be finalized in ECMAScript 2017 (ECMAScript 8).
+> ### Future Asynchronous Task Running
+>
+> At the time of my writing, there is ongoing work around bringing a simpler syntax to asynchronous task running in JavaScript. Work is progressing on an `await` syntax that would closely mirror the promise-based example in the preceding section. The basic idea is to use a function marked with `async` instead of a generator and use `await` instead of `yield` when calling a function, such as:
+>
+> ```js
+> (async function() {
+>     let contents = await readFile("config.json");
+>     doSomethingWith(contents);
+>     console.log("Done");
+> })();
+> ```
+>
+> The `async` keyword before `function` indicates that the function is meant to run in an asynchronous manner. The `await` keyword signals that the function call to `readFile("config.json")` should return a promise, and if it doesn't, the response should be wrapped in a promise. Just as with the implementation of `run()` in the preceding section, `await` will throw an error if the promise is rejected and otherwise return the value from the promise. The end result is that you get to write asynchronous code as if it were synchronous without the overhead of managing an iterator-based state machine.
+>
+> The `await` syntax is expected to be finalized in ECMAScript 2017 (ECMAScript 8).
 
 
 ## Summary

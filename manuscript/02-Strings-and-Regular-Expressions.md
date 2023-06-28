@@ -179,7 +179,7 @@ console.log(codePointLength("𠮷bc"));   // 3
 
 This example calls `match()` to check `text` for both whitespace and non-whitespace characters (using `[\s\S]` to ensure the pattern matches newlines), using a regular expression that is applied globally with Unicode enabled. The `result` contains an array of matches when there's at least one match, so the array length is the number of code points in the string. In Unicode, the strings `"abc"` and `"𠮷bc"` both have three characters, so the array length is three.
 
-W> Although this approach works, it's not very fast, especially when applied to long strings. You can use a string iterator (discussed in Chapter 8) as well. In general, try to minimize counting code points whenever possible.
+> **Warn** Although this approach works, it's not very fast, especially when applied to long strings. You can use a string iterator (discussed in Chapter 8) as well. In general, try to minimize counting code points whenever possible.
 
 #### Determining Support for the u Flag
 
@@ -198,7 +198,7 @@ function hasRegExpU() {
 
 This function uses the `RegExp` constructor to pass in the `u` flag as an argument. This syntax is valid even in older JavaScript engines, but the constructor will throw an error if `u` isn't supported.
 
-I> If your code still needs to work in older JavaScript engines, always use the `RegExp` constructor when using the `u` flag. This will prevent syntax errors and allow you to optionally detect and use the `u` flag without aborting execution.
+> If your code still needs to work in older JavaScript engines, always use the `RegExp` constructor when using the `u` flag. This will prevent syntax errors and allow you to optionally detect and use the `u` flag without aborting execution.
 
 ## Other String Changes
 
@@ -234,7 +234,7 @@ The first six calls don't include a second parameter, so they'll search the whol
 
 While these three methods make identifying the existence of substrings easier, each only returns a boolean value. If you need to find the actual position of one string within another, use the `indexOf()` or `lastIndexOf()` methods.
 
-W> The `startsWith()`, `endsWith()`, and `includes()` methods will throw an error if you pass a regular expression instead of a string. This stands in contrast to `indexOf()` and `lastIndexOf()`, which both convert a regular expression argument into a string and then search for that string.
+> **Warn** The `startsWith()`, `endsWith()`, and `includes()` methods will throw an error if you pass a regular expression instead of a string. This stands in contrast to `indexOf()` and `lastIndexOf()`, which both convert a regular expression argument into a string and then search for that string.
 
 ### The repeat() Method
 
@@ -552,16 +552,15 @@ let html = `
 
 This code begins the template literal on the first line but doesn't have any text until the second. The HTML tags are indented to look correct and then the `trim()` method is called to remove the initial empty line.
 
-A> If you prefer, you can also use `\n` in a template literal to indicate where a newline should be inserted:
-A> {:lang="js"}
-A> ~~~~~~~~
-A>
-A> let message = `Multiline\nstring`;
-A>
-A> console.log(message);           // "Multiline
-A>                                 //  string"
-A> console.log(message.length);    // 16
-A> ~~~~~~~~
+> If you prefer, you can also use `\n` in a template literal to indicate where a newline should be inserted:
+> ```js
+>
+> let message = `Multiline\nstring`;
+>
+> console.log(message);           // "Multiline
+>                                 //  string"
+> console.log(message.length);    // 16
+> ```
 
 ### Making Substitutions
 
@@ -578,7 +577,7 @@ console.log(message);       // "Hello, Nicholas."
 
 The substitution `${name}` accesses the local variable `name` to insert `name` into the `message` string. The `message` variable then holds the result of the substitution immediately.
 
-I> A template literal can access any variable accessible in the scope in which it is defined. Attempting to use an undeclared variable in a template literal throws an error in both strict and non-strict modes.
+> A template literal can access any variable accessible in the scope in which it is defined. Attempting to use an undeclared variable in a template literal throws an error in both strict and non-strict modes.
 
 Since all substitutions are JavaScript expressions, you can substitute more than just simple variable names. You can easily embed calculations, function calls, and more. For example:
 
@@ -672,7 +671,7 @@ console.log(message);       // "10 items cost $2.50."
 
 This example defines a `passthru` tag that performs the same transformation as the default template literal behavior. The only trick is to use `substitutions.length` for the loop rather than `literals.length` to avoid accidentally going past the end of the `substitutions` array. This works because the relationship between `literals` and `substitutions` is well-defined in ECMAScript 6.
 
-I> The values contained in `substitutions` are not necessarily strings. If an expression evaluates to a number, as in the previous example, then the numeric value is passed in. Determining how such values should output in the result is part of the tag's job.
+> The values contained in `substitutions` are not necessarily strings. If an expression evaluates to a number, as in the previous example, then the numeric value is passed in. Determining how such values should output in the result is part of the tag's job.
 
 #### Using Raw Values in Template Literals
 

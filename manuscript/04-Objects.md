@@ -75,7 +75,7 @@ var person = {
 
 This shorthand syntax, also called *concise method* syntax, creates a method on the `person` object just as the previous example did. The `sayName()` property is assigned an anonymous function and has all the same characteristics as the ECMAScript 5 `sayName()` function. The one difference is that concise methods may use `super` (discussed later in the "Easy Prototype Access with Super References" section), while the nonconcise methods may not.
 
-I> The `name` property of a method created using concise method shorthand is the name used before the parentheses. In the last example, the `name` property for `person.sayName()` is `"sayName"`.
+> The `name` property of a method created using concise method shorthand is the name used before the parentheses. In the last example, the `name` property for `person.sayName()` is `"sayName"`.
 
 ### Computed Property Names
 
@@ -199,7 +199,7 @@ Here, `myObject` receives behavior from the `EventTarget.prototype` object. This
 
 This pattern became popular enough that ECMAScript 6 added the `Object.assign()` method, which behaves the same way, accepting a receiver and any number of suppliers, and then returning the receiver. The name change from `mixin()` to `assign()` reflects the actual operation that occurs. Since the `mixin()` function uses the assignment operator (`=`), it cannot copy accessor properties to the receiver as accessor properties. The name `Object.assign()` was chosen to reflect this distinction.
 
-I> Similar methods in various libraries may have other names for the same basic functionality; popular alternates include the `extend()` and `mix()` methods. There was also, briefly, an `Object.mixin()` method in ECMAScript 6 in addition to the `Object.assign()` method. The primary difference was that `Object.mixin()` also copied over accessor properties, but the method was removed due to concerns over the use of `super` (discussed in the "Easy Prototype Access with Super References" section of this chapter).
+> Similar methods in various libraries may have other names for the same basic functionality; popular alternates include the `extend()` and `mix()` methods. There was also, briefly, an `Object.mixin()` method in ECMAScript 6 in addition to the `Object.assign()` method. The primary difference was that `Object.mixin()` also copied over accessor properties, but the method was removed due to concerns over the use of `super` (discussed in the "Easy Prototype Access with Super References" section of this chapter).
 
 You can use `Object.assign()` anywhere the `mixin()` function would have been used. Here's an example:
 
@@ -240,27 +240,27 @@ The value of `receiver.type` is `"css"` because the second supplier overwrote th
 
 The `Object.assign()` method isn't a big addition to ECMAScript 6, but it does formalize a common function found in many JavaScript libraries.
 
-A> ### Working with Accessor Properties
-A>
-A> Keep in mind that `Object.assign()` doesn't create accessor properties on the receiver when a supplier has accessor properties. Since `Object.assign()` uses the assignment operator, an accessor property on a supplier will become a data property on the receiver. For example:
-A>
-A> ```js
-A> var receiver = {},
-A>     supplier = {
-A>         get name() {
-A>             return "file.js"
-A>         }
-A>     };
-A>
-A> Object.assign(receiver, supplier);
-A>
-A> var descriptor = Object.getOwnPropertyDescriptor(receiver, "name");
-A>
-A> console.log(descriptor.value);      // "file.js"
-A> console.log(descriptor.get);        // undefined
-A> ```
-A>
-A> In this code, the `supplier` has an accessor property called `name`. After using the `Object.assign()` method, `receiver.name` exists as a data property with a value of `"file.js"` because `supplier.name` returned `"file.js"` when `Object.assign()` was called.
+> ### Working with Accessor Properties
+>
+> Keep in mind that `Object.assign()` doesn't create accessor properties on the receiver when a supplier has accessor properties. Since `Object.assign()` uses the assignment operator, an accessor property on a supplier will become a data property on the receiver. For example:
+>
+> ```js
+> var receiver = {},
+>     supplier = {
+>         get name() {
+>             return "file.js"
+>         }
+>     };
+>
+> Object.assign(receiver, supplier);
+>
+> var descriptor = Object.getOwnPropertyDescriptor(receiver, "name");
+>
+> console.log(descriptor.value);      // "file.js"
+> console.log(descriptor.get);        // undefined
+> ```
+>
+> In this code, the `supplier` has an accessor property called `name`. After using the `Object.assign()` method, `receiver.name` exists as a data property with a value of `"file.js"` because `supplier.name` returned `"file.js"` when `Object.assign()` was called.
 
 ## Duplicate Object Literal Properties
 
@@ -319,7 +319,7 @@ console.log(Object.getOwnPropertyNames(obj).join(""));     // "012acbd"
 
 The `Object.getOwnPropertyNames()` method returns the properties in `obj` in the order `0`, `1`, `2`, `a`, `c`, `b`, `d`. Note that the numeric keys are grouped together and sorted, even though they appear out of order in the object literal. The string keys come after the numeric keys and appear in the order that they were added to `obj`. The keys in the object literal itself come first, followed by any dynamic keys that were added later (in this case, `d`).
 
-W> The `for-in` loop still has an unspecified enumeration order because not all JavaScript engines implement it the same way. The `Object.keys()` method and `JSON.stringify()` are both specified to use the same (unspecified) enumeration order as `for-in`.
+> **Warn** The `for-in` loop still has an unspecified enumeration order because not all JavaScript engines implement it the same way. The `Object.keys()` method and `JSON.stringify()` are both specified to use the same (unspecified) enumeration order as `for-in`.
 
 While enumeration order is a subtle change to how JavaScript works, it's not uncommon to find programs that rely on a specific enumeration order to work correctly. ECMAScript 6, by defining the enumeration order, ensures that JavaScript code relying on enumeration will work correctly regardless of where it is executed.
 

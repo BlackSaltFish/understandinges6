@@ -18,7 +18,7 @@ console.log(person[firstName]);     // "Nicholas"
 
 Here, the symbol `firstName` is created and used to assign a new property on the `person` object. That symbol must be used each time you want to access that same property. Naming the symbol variable appropriately is a good idea, so you can easily tell what the symbol represents.
 
-W> Because symbols are primitive values, calling `new Symbol()` throws an error when called. You can create an instance of `Symbol` via `new Object(yourSymbol)` as well, but it's unclear when this capability would be useful.
+> **Warn** Because symbols are primitive values, calling `new Symbol()` throws an error when called. You can create an instance of `Symbol` via `new Object(yourSymbol)` as well, but it's unclear when this capability would be useful.
 
 The `Symbol` function also accepts an optional argument that is the description of the symbol. The description itself cannot be used to access the property, but is used for debugging purposes. For example:
 
@@ -35,16 +35,16 @@ console.log(firstName);                     // "Symbol(first name)"
 
 A symbol's description is stored internally in the `[[Description]]` property. This property is read whenever the symbol's `toString()` method is called either explicitly or implicitly. The `firstName` symbol's `toString()` method is called implictly by `console.log()` in this example, so the description gets printed to the log. It is not otherwise possible to access `[[Description]]` directly from code. I recommended always providing a description to make both reading and debugging symbols easier.
 
-A> ### Identifying Symbols
-A>
-A>Since symbols are primitive values, you can use the `typeof` operator to determine if a variable contains a symbol. ECMAScript 6 extends `typeof` to return `"symbol"` when used on a symbol. For example:
-A>
-A>```js
-A>let symbol = Symbol("test symbol");
-A>console.log(typeof symbol);         // "symbol"
-A>```
-A>
-A>While there are other indirect ways of determining whether a variable is a symbol, the `typeof` operator is the most accurate and preferred technique.
+> ### Identifying Symbols
+>
+>Since symbols are primitive values, you can use the `typeof` operator to determine if a variable contains a symbol. ECMAScript 6 extends `typeof` to return `"symbol"` when used on a symbol. For example:
+>
+>```js
+>let symbol = Symbol("test symbol");
+>console.log(typeof symbol);         // "symbol"
+>```
+>
+>While there are other indirect ways of determining whether a variable is a symbol, the `typeof` operator is the most accurate and preferred technique.
 
 ## Using Symbols
 
@@ -129,7 +129,7 @@ console.log(Symbol.keyFor(uid3));   // undefined
 
 Notice that both `uid` and `uid2` return the `"uid"` key. The symbol `uid3` doesn't exist in the global symbol registry, so it has no key associated with it and `Symbol.keyFor()` returns `undefined`.
 
-W> The global symbol registry is a shared environment, just like the global scope. That means you can't make assumptions about what is or is not already present in that environment. Use namespacing of symbol keys to reduce the likelihood of naming collisions when using third-party components. For example, jQuery code might use `"jquery."` to prefix all keys, for keys like `"jquery.element"` or similar.
+> **Warn** The global symbol registry is a shared environment, just like the global scope. That means you can't make assumptions about what is or is not already present in that environment. Use namespacing of symbol keys to reduce the likelihood of naming collisions when using third-party components. For example, jQuery code might use `"jquery."` to prefix all keys, for keys like `"jquery.element"` or similar.
 
 ## Symbol Coercion
 
@@ -207,7 +207,7 @@ The well-known symbols are:
 
 Some commonly used well-known symbols are discussed in the following sections, while others are discussed throughout the rest of the book to keep them in the correct context.
 
-I> Overwriting a method defined with a well-known symbol changes an ordinary object to an exotic object because this changes some internal default behavior. There is no practical impact to your code as a result, it just changes the way the specification describes the object.
+> Overwriting a method defined with a well-known symbol changes an ordinary object to an exotic object because this changes some internal default behavior. There is no practical impact to your code as a result, it just changes the way the specification describes the object.
 
 ### The Symbol.hasInstance Property
 
@@ -269,7 +269,7 @@ console.log(zero instanceof SpecialNumber);   // false
 
 This code defines a `Symbol.hasInstance` method that returns `true` if the value is an instance of `Number` and also has a value between 1 and 100. Thus, `SpecialNumber` will claim `two` as an instance even though there is no directly defined relationship between the `SpecialNumber` function and the `two` variable. Note that the left operand to `instanceof` must be an object to trigger the `Symbol.hasInstance` call, as nonobjects cause `instanceof` to simply return `false` all the time.
 
-W> You can also overwrite the default `Symbol.hasInstance` property for all builtin functions such as the `Date` and `Error` functions. This isn't recommended, however, as the effects on your code can be unexpected and confusing. It's a good idea to only overwrite `Symbol.hasInstance` on your own functions and only when necessary.
+> **Warn** You can also overwrite the default `Symbol.hasInstance` property for all builtin functions such as the `Date` and `Error` functions. This isn't recommended, however, as the effects on your code can be unexpected and confusing. It's a good idea to only overwrite `Symbol.hasInstance` on your own functions and only when necessary.
 
 ### The Symbol.isConcatSpreadable Symbol
 
@@ -313,7 +313,7 @@ console.log(messages);           // ["Hi","Hello","world"]
 
 The `collection` object in this example is set up to look like an array: it has a `length` property and two numeric keys. The `Symbol.isConcatSpreadable` property is set to `true` to indicate that the property values should be added as individual items to an array. When `collection` is passed to the `concat()` method, the resulting array has `"Hello"` and `"world"` as separate items after the `"Hi"` element.
 
-I> You can also set `Symbol.isConcatSpreadable` to `false` on array subclasses to prevent items from being separated by `concat()` calls. Subclassing is discussed in Chapter 8.
+> You can also set `Symbol.isConcatSpreadable` to `false` on array subclasses to prevent items from being separated by `concat()` calls. Subclassing is discussed in Chapter 8.
 
 ### The Symbol.match, Symbol.replace, Symbol.search, and Symbol.split Symbols
 
@@ -407,7 +407,7 @@ Similarly, for most standard objects, the behaviors of string mode have the foll
 
 In many cases, standard objects treat default mode as equivalent to number mode (except for `Date`, which treats default mode as equivalent to string mode). By defining an `Symbol.toPrimitive` method, you can override these default coercion behaviors.
 
-I> Default mode is only used for the `==` operator, the `+` operator, and when passing a single argument to the `Date` constructor. Most operations use string or number mode.
+> Default mode is only used for the `==` operator, the `+` operator, and when passing a single argument to the `Date` constructor. Most operations use string or number mode.
 
 To override the default conversion behaviors, use `Symbol.toPrimitive` and assign a function as its value. For example:
 
@@ -514,7 +514,7 @@ console.log(Object.prototype.toString.call(me));    // "[object Person]"
 
 This code defines `Person.prototype.toString()` to return the value of the `name` property. Since `Person` instances no longer inherit the `Object.prototype.toString()` method, calling `me.toString()` exhibits a different behavior.
 
-I> All objects inherit `Symbol.toStringTag` from `Object.prototype` unless otherwise specified. The string `"Object"` is the default property value.
+> All objects inherit `Symbol.toStringTag` from `Object.prototype` unless otherwise specified. The string `"Object"` is the default property value.
 
 There is no restriction on which values can be used for `Symbol.toStringTag` on developer-defined objects. For example, nothing prevents you from using `"Array"` as the value of the `Symbol.toStringTag` property, such as:
 

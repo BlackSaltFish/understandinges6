@@ -62,7 +62,7 @@ console.log(typeof PersonClass.prototype.sayName);  // "function"
 
 The class declaration `PersonClass` behaves quite similarly to `PersonType` from the previous example. But instead of defining a function as the constructor, class declarations allow you to define the constructor directly inside the class with the special `constructor` method name. Since class methods use the concise syntax, there's no need to use the `function` keyword. All other method names have no special meaning, so you can add as many methods as you want.
 
-I> *Own properties*, properties that occur on the instance rather than the prototype, can only be created inside a class constructor or method. In this example, `name` is an own property. I recommend creating all possible own properties inside the constructor function so a single place in the class is responsible for all of them.
+> *Own properties*, properties that occur on the instance rather than the prototype, can only be created inside a class constructor or method. In this example, `name` is an own property. I recommend creating all possible own properties inside the constructor function so a single place in the class is responsible for all of them.
 
 Interestingly, class declarations are just syntactic sugar on top of the existing custom type declarations. The `PersonClass` declaration actually creates a function that has the behavior of the `constructor` method, which is why `typeof PersonClass` gives `"function"` as the result. The `sayName()` method also ends up as a method on `PersonClass.prototype` in this example, similar to the relationship between `sayName()` and `PersonType.prototype` in the previous example. These similarities allow you to mix custom types and classes without worrying too much about which you're using.
 
@@ -118,22 +118,22 @@ First, notice that there are two `PersonType2` declarations: a `let` declaration
 
 This example shows that while it's possible to do everything classes do without using the new syntax, the class syntax simplifies all of the functionality significantly.
 
-A> ### Constant Class Names
-A>
-A> The name of a class is only specified as if using `const` inside of the class itself. That means you can overwrite the class name outside of the class but not inside a class method. For example:
-A>
-A> ```js
-A> class Foo {
-A>    constructor() {
-A>        Foo = "bar";    // throws an error when executed
-A>    }
-A> }
-A>
-A>// but this is okay after the class declaration
-A> Foo = "baz";
-A> ```
-A>
-A> In this code, the `Foo` inside the class constructor is a separate binding from the `Foo` outside the class. The internal `Foo` is defined as if it's a `const` and cannot be overwritten. An error is thrown when the constructor attempts to overwrite `Foo` with any value. But since the external `Foo` is defined as if it's a `let` declaration, you can overwrite its value at any time.
+> ### Constant Class Names
+>
+> The name of a class is only specified as if using `const` inside of the class itself. That means you can overwrite the class name outside of the class but not inside a class method. For example:
+>
+> ```js
+> class Foo {
+>    constructor() {
+>        Foo = "bar";    // throws an error when executed
+>    }
+> }
+>
+>// but this is okay after the class declaration
+> Foo = "baz";
+> ```
+>
+> In this code, the `Foo` inside the class constructor is a separate binding from the `Foo` outside the class. The internal `Foo` is defined as if it's a `const` and cannot be overwritten. An error is thrown when the constructor attempts to overwrite `Foo` with any value. But since the external `Foo` is defined as if it's a `let` declaration, you can overwrite its value at any time.
 
 ## Class Expressions
 
@@ -491,7 +491,7 @@ let person = PersonClass.create("Nicholas");
 
 The `PersonClass` definition has a single static method called `create()`. The method syntax is the same used for `sayName()` except for the `static` keyword. You can use the `static` keyword on any method or accessor property definition within a class. The only restriction is that you can't use `static` with the `constructor` method definition.
 
-W> Static members are not accessible from instances. You must always access static members from the class directly.
+> **Warn** Static members are not accessible from instances. You must always access static members from the class directly.
 
 
 ## Inheritance with Derived Classes
@@ -579,11 +579,11 @@ class Square extends Rectangle {
 
 The second class in this example shows the equivalent of the default constructor for all derived classes. All of the arguments are passed, in order, to the base class constructor. In this case, the functionality isn't quite correct because the `Square` constructor needs only one argument, and so it's best to manually define the constructor.
 
-W> There are a few things to keep in mind when using `super()`:
-W>
-W> 1. You can only use `super()` in a derived class. If you try to use it in a non-derived class (a class that doesn't use `extends`) or a function, it will throw an error.
-W> 1. You must call `super()` before accessing `this` in the constructor. Since `super()` is responsible for initializing `this`, attempting to access `this` before calling `super()` results in an error.
-W> 1. The only way to avoid calling `super()` is to return an object from the class constructor.
+> **Warn** There are a few things to keep in mind when using `super()`:
+>
+> 1. You can only use `super()` in a derived class. If you try to use it in a non-derived class (a class that doesn't use `extends`) or a function, it will throw an error.
+> 1. You must call `super()` before accessing `this` in the constructor. Since `super()` is responsible for initializing `this`, attempting to access `this` before calling `super()` results in an error.
+> 1. The only way to avoid calling `super()` is to return an object from the class constructor.
 
 ### Shadowing Class Methods
 
@@ -748,12 +748,12 @@ In this example, mixins are used instead of classical inheritance. The `mixin()`
 
 The instance of `Square` has both `getArea()` from `AreaMixin` and `serialize` from `SerializableMixin`. This is accomplished through prototypal inheritance. The `mixin()` function dynamically populates the prototype of a new function with all of the own properties of each mixin. (Keep in mind that if multiple mixins have the same property, only the last property added will remain.)
 
-W> Any expression can be used after `extends`, but not all expressions result in a valid class. Specifically, the following expression types cause errors:
-W>
-W> * `null`
-W> * generator functions (covered in Chapter 8)
-W>
-W> In these cases, attempting to create a new instance of the class will throw an error because there is no `[[Construct]]` to call.
+> **Warn** Any expression can be used after `extends`, but not all expressions result in a valid class. Specifically, the following expression types cause errors:
+> 
+> * `null`
+> * generator functions (covered in Chapter 8)
+>
+> In these cases, attempting to create a new instance of the class will throw an error because there is no `[[Construct]]` to call.
 
 ### Inheriting from Built-ins
 
@@ -990,7 +990,7 @@ console.log(y instanceof Shape);    // true
 
 In this example, the `Shape` class constructor throws an error whenever `new.target` is `Shape`, meaning that `new Shape()` always throws an error. However, you can still use `Shape` as a base class, which is what `Rectangle` does. The `super()` call executes the `Shape` constructor and `new.target` is equal to `Rectangle` so the constructor continues without error.
 
-I> Since classes can't be called without `new`, the `new.target` property is never `undefined` inside of a class constructor.
+> Since classes can't be called without `new`, the `new.target` property is never `undefined` inside of a class constructor.
 
 ## Summary
 

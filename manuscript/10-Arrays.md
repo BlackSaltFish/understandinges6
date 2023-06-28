@@ -62,7 +62,7 @@ let items = createArray(Array.of, value);
 
 In this code, the `createArray()` function accepts an array creator function and a value to insert into the array. You can pass `Array.of()` as the first argument to `createArray()` to create a new array. It would be dangerous to pass `Array` directly if you cannot guarantee that `value` won't be a number.
 
-I> The `Array.of()` method does not use the `Symbol.species` property (discussed in Chapter 9) to determine the type of return value. Instead, it uses the current constructor (`this` inside the `of()` method) to determine the correct data type to return.
+> The `Array.of()` method does not use the `Symbol.species` property (discussed in Chapter 9) to determine the type of return value. Instead, it uses the current constructor (`this` inside the `of()` method) to determine the correct data type to return.
 
 ### The Array.from() Method
 
@@ -116,7 +116,7 @@ function doSomething() {
 
 The `Array.from()` call creates a new array based on the items in `arguments`. So `args` is an instance of `Array` that contains the same values in the same positions as `arguments`.
 
-I> The `Array.from()` method also uses `this` to determine the type of array to return.
+> The `Array.from()` method also uses `this` to determine the type of array to return.
 
 #### Mapping Conversion
 
@@ -174,7 +174,7 @@ console.log(numbers2);              // 2,3,4
 
 Since the `numbers` object is an iterable, you can pass `numbers` directly to `Array.from()` to convert its values into an array. The mapping function adds one to each number so the resulting array contains 2, 3, and 4 instead of 1, 2, and 3.
 
-I> If an object is both array-like and iterable, then the iterator is used by `Array.from()` to determine the values to convert.
+> If an object is both array-like and iterable, then the iterator is used by `Array.from()` to determine the values to convert.
 
 ## New Methods on All Arrays
 
@@ -227,7 +227,7 @@ console.log(numbers.toString());    // 1,0,0,1
 
 In the `numbers.fill(1,2)` call, the `2` indicates to start filling elements at index 2. The exclusive end index isn't specified with a third argument, so `numbers.length` is used as the end index, meaning the last two elements in `numbers` are filled with `1`. The `numbers.fill(0, 1, 3)` operation fills array elements at indices 1 and 2 with `0`. Calling `fill()` with the second and third arguments allows you to fill multiple array elements at once without overwriting the entire array.
 
-I> If either the start or end index are negative, then those values are added to the array's length to determine the final location. For instance, a start location of `-1` gives `array.length - 1` as the index, where `array` is the array on which `fill()` is called.
+> If either the start or end index are negative, then those values are added to the array's length to determine the final location. For instance, a start location of `-1` gives `array.length - 1` as the index, where `array` is the array on which `fill()` is called.
 
 ### The copyWithin() Method
 
@@ -262,7 +262,7 @@ console.log(numbers.toString());    // 1,2,1,4
 
 In this example, only the value in index 0 is copied because the optional end index is set to `1`. The last element in the array remains unchanged.
 
-I> As with the `fill()` method, if you pass a negative number for any argument to the `copyWithin()` method, the array's length is automatically added to that value to determine the index to use.
+> As with the `fill()` method, if you pass a negative number for any argument to the `copyWithin()` method, the array's length is automatically added to that value to determine the index to use.
 
 The use cases for `fill()` and `copyWithin()` may not be obvious to you at this point. That's because these methods originated on typed arrays and were added to regular arrays for consistency. As you'll learn in the next section, however, if you use typed arrays for manipulating the bits of a number, these methods become a lot more useful.
 
@@ -291,7 +291,7 @@ If you represent a number that fits in an int8 as a normal JavaScript number, yo
 
 All of the operations and objects related to typed arrays are centered around these eight data types. In order to use them, though, you'll need to create an array buffer to store the data.
 
-I> In this book, I will refer to these types by the abbreviations I showed in parentheses. Those abbreviations don't appear in actual JavaScript code; they're just a shorthand for the much longer descriptions.
+> In this book, I will refer to these types by the abbreviations I showed in parentheses. Those abbreviations don't appear in actual JavaScript code; they're just a shorthand for the much longer descriptions.
 
 ### Array Buffers
 
@@ -322,7 +322,7 @@ In this code, `buffer2` is created by extracting the bytes at indices 4 and 5. J
 
 Of course, creating a storage location isn't very helpful without being able to write data into that location. To do so, you'll need to create a view.
 
-I> An array buffer always represents the exact number of bytes specified when it was created. You can change the data contained within an array buffer, but never the size of the array buffer itself.
+> An array buffer always represents the exact number of bytes specified when it was created. You can change the data contained within an array buffer, but never the size of the array buffer itself.
 
 ### Manipulating Array Buffers with Views
 
@@ -460,17 +460,17 @@ The left column lists the typed array constructors, and the other columns descri
 
 Typed array operations only work on a particular type of data. For example, all operations on `Int8Array` use `int8` values. The size of an element in a typed array also depends on the type of array. While an element in an `Int8Array` is a single byte long, `Float64Array` uses eight bytes per element. Fortunately, the elements are accessed using numeric indices just like regular arrays, allowing you to avoid the somewhat awkward calls to the "set" and "get" methods of `DataView`.
 
-A> ### Element Size
-A>
-A> Each typed array is made up of a number of elements, and the element size is the number of bytes each element represents. This value is stored on a `BYTES_PER_ELEMENT` property on each constructor and each instance, so you can easily query the element size:
-A>
-A> ```js
-A> console.log(UInt8Array.BYTES_PER_ELEMENT);      // 1
-A> console.log(UInt16Array.BYTES_PER_ELEMENT);     // 2
-A>
-A> let ints = new Int8Array(5);
-A> console.log(ints.BYTES_PER_ELEMENT);            // 1
-A> ```
+> ### Element Size
+>
+> Each typed array is made up of a number of elements, and the element size is the number of bytes each element represents. This value is stored on a `BYTES_PER_ELEMENT` property on each constructor and each instance, so you can easily query the element size:
+>
+> ```js
+> console.log(UInt8Array.BYTES_PER_ELEMENT);      // 1
+> console.log(UInt16Array.BYTES_PER_ELEMENT);     // 2
+>
+> let ints = new Int8Array(5);
+> console.log(ints.BYTES_PER_ELEMENT);            // 1
+> ```
 
 #### Creating Type-Specific Views
 
@@ -506,7 +506,7 @@ console.log(floats.length);         // 5
 
 The `ints` array is created with space for two elements. Each 16-bit integer requires two bytes per value, so the array is allocated four bytes. The `floats` array is created to hold five elements, so the number of bytes required is 20 (four bytes per element). In both cases, a new buffer is created and can be accessed using the `buffer` property if necessary.
 
-W> If no argument is passed to a typed array constructor, the constructor acts as if `0` was passed. This creates a typed array that cannot hold data because zero bytes are allocated to the buffer.
+> **Warn** If no argument is passed to a typed array constructor, the constructor acts as if `0` was passed. This creates a typed array that cannot hold data because zero bytes are allocated to the buffer.
 
 The third way to create a typed array is to pass an object as the only argument to the constructor. The object can be any of the following:
 
@@ -556,7 +556,7 @@ console.log(ints[1]);              // 2
 
 In this code, a new `Int16Array` with two items is created. The items are read from and written to using their numeric indices, and those values are automatically stored and converted into int16 values as part of the operation. The similarities don't end there, though.
 
-I> Unlike regular arrays, you cannot change the size of a typed array using the `length` property. The `length` property is not writable, so any attempt to change it is ignored in non-strict mode and throws an error in strict mode.
+> Unlike regular arrays, you cannot change the size of a typed array using the `length` property. The `length` property is not writable, so any attempt to change it is ignored in non-strict mode and throws an error in strict mode.
 
 ### Common Methods
 

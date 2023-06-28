@@ -66,7 +66,7 @@ import { identifier1, identifier2 } from "./example.js";
 
 The curly braces after `import` indicate the bindings to import from a given module. The keyword `from` indicates the module from which to import the given binding. The module is specified by a string representing the path to the module (called the *module specifier*). Browsers use the same path format you might pass to the `<script>` element, which means you must include a file extension. Node.js, on the other hand, follows its traditional convention of differentiating between local files and packages based on a filesystem prefix. For example, `example` would be a package and `./example.js` would be a local file.
 
-I> The list of bindings to import looks similar to a destructured object, but it isn't one.
+> The list of bindings to import looks similar to a destructured object, but it isn't one.
 
 When importing a binding from a module, the binding acts as if it were defined using `const`. That means you can't define another variable with the same name (including importing another binding of the same name), use the identifier before the `import` statement, or change its value.
 
@@ -85,7 +85,7 @@ sum = 1;        // error
 
 Even though `example.js` exports more than just that one function this example imports only the `sum()` function. If you try to assign a new value to `sum`, the result is an error, as you can't reassign imported bindings.
 
-W> Make sure to include `/`, `./`, or `../` at the beginning of the file you're importing for best compatibility across browsers and Node.js.
+> **Warn** Make sure to include `/`, `./`, or `../` at the beginning of the file you're importing for best compatibility across browsers and Node.js.
 
 ### Importing Multiple Bindings
 
@@ -124,26 +124,26 @@ import { magicNumber } from "./example.js";
 
 Even though there are three `import` statements in this module, `example.js` will only be executed once. If other modules in the same application were to import bindings from `example.js`, those modules would use the same module instance this code uses.
 
-A> ### Module Syntax Limitations
-A>
-A> An important limitation of both `export` and `import` is that they must be used outside other statements and functions. For instance, this code will give a syntax error:
-A>
-A> ```js
-A> if (flag) {
-A>     export flag;    // syntax error
-A> }
-A> ```
-A>The `export` statement is inside an `if` statement, which isn't allowed. Exports cannot be conditional or done dynamically in any way. One reason module syntax exists is to let the JavaScript engine staticly determine what will be exported. As such, you can only use `export` at the top-level of a module.
-A>
-A> Similarly, you can't use `import` inside of a statement; you can only use it at the top-level. That means this code also gives a syntax error:
-A>
-A> ```js
-A> function tryImport() {
-A>     import flag from "./example.js";    // syntax error
-A> }
-A> ```
-A>
-A> You can't dynamically import bindings for the same reason you can't dynamically export bindings. The `export` and `import` keywords are designed to be static so that tools like text editors can easily tell what information is available from a module.
+> ### Module Syntax Limitations
+>
+> An important limitation of both `export` and `import` is that they must be used outside other statements and functions. For instance, this code will give a syntax error:
+>
+> ```js
+> if (flag) {
+>     export flag;    // syntax error
+> }
+> ```
+>The `export` statement is inside an `if` statement, which isn't allowed. Exports cannot be conditional or done dynamically in any way. One reason module syntax exists is to let the JavaScript engine staticly determine what will be exported. As such, you can only use `export` at the top-level of a module.
+>
+> Similarly, you can't use `import` inside of a statement; you can only use it at the top-level. That means this code also gives a syntax error:
+>
+> ```js
+> function tryImport() {
+>     import flag from "./example.js";    // syntax error
+> }
+> ```
+>
+> You can't dynamically import bindings for the same reason you can't dynamically export bindings. The `export` and `import` keywords are designed to be static so that tools like text editors can easily tell what information is available from a module.
 
 ### A Subtle Quirk of Imported Bindings
 
@@ -349,7 +349,7 @@ items.pushAll(colors);
 
 This code imports and executes the module containing the `pushAll()` method, so `pushAll()` is added to the array prototype. That means `pushAll()` is now available for use on all arrays inside of this module.
 
-I> Imports without bindings are most likely to be used to create polyfills and shims.
+> Imports without bindings are most likely to be used to create polyfills and shims.
 
 ## Loading Modules
 
@@ -387,7 +387,7 @@ The first `<script>` element in this example loads an external module file using
 
 As you can see, including modules in web pages is fairly simple and similar to including scripts. However, there are some differences in how modules are loaded.
 
-I> You may have noticed that `"module"` is not a content type like the `"text/javascript"` type. Module JavaScript files are served with the same content type as script JavaScript files, so it's not possible to differentiate solely based on content type. Also, browsers ignore `<script>` elements when the `type` is unrecognized, so browsers that don't support modules will automatically ignore the `<script type="module">` line, providing good backwards-compatibility.
+> You may have noticed that `"module"` is not a content type like the `"text/javascript"` type. Module JavaScript files are served with the same content type as script JavaScript files, so it's not possible to differentiate solely based on content type. Also, browsers ignore `<script>` elements when the `type` is unrecognized, so browsers that don't support modules will automatically ignore the `<script type="module">` line, providing good backwards-compatibility.
 
 #### Module Loading Sequence in Web Browsers
 
@@ -434,7 +434,7 @@ Once loading is complete, nothing is executed until after the document has been 
 
 Notice that the inline module acts like the other two modules except that the code doesn't have to be downloaded first. Otherwise, the sequence of loading `import` resources and executing modules is exactly the same.
 
-I> The `defer` attribute is ignored on `<script type="module">` because it already behaves as if `defer` is applied.
+> The `defer` attribute is ignored on `<script type="module">` because it already behaves as if `defer` is applied.
 
 #### Asynchronous Module Loading in Web Browsers
 
