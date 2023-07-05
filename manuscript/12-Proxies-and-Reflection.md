@@ -36,9 +36,12 @@ You can create a proxy to use in place of another object (called the *target*) b
 
 Proxies allow you to intercept low-level object operations on the target that are otherwise internal to the JavaScript engine. These low-level operations are intercepted using a *trap*, which is a function that responds to a specific operation.
 
-The reflection API, represented by the `Reflect` object, is a collection of methods that provide the default behavior for the same low-level operations that proxies can override. There is a `Reflect` method for every proxy trap. Those methods have the same name and are passed the same arguments as their respective proxy traps. Table 11-1 summarizes this behavior.
+The reflection API, represented by the `Reflect` object, is a collection of methods that provide the default behavior for the same low-level operations that proxies can override. There is a `Reflect` method for every proxy trap. Those methods have the same name and are passed the same arguments as their respective proxy traps.
 
-{title="Table 11-1: Proxy traps in JavaScript"}
+Table 11-1 summarizes this behavior.
+
+<!--{title="Table 11-1: Proxy traps in JavaScript"}-->
+
 | Proxy Trap               | Overrides the Behavior Of | Default Behavior |
 |--------------------------|---------------------------|------------------|
 |`get`                     | Reading a property value  | `Reflect.get()` |

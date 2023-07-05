@@ -6982,8 +6982,83 @@ Finished</code></pre>
 <h2 data-number="13.2" id="what-are-proxies-and-reflection"><span class="header-section-number">13.2</span> What are Proxies and Reflection?</h2>
 <p>You can create a proxy to use in place of another object (called the <em>target</em>) by calling <code>new Proxy()</code>. The proxy <em>virtualizes</em> the target so that the proxy and the target appear to be the same object to functionality using the proxy.</p>
 <p>Proxies allow you to intercept low-level object operations on the target that are otherwise internal to the JavaScript engine. These low-level operations are intercepted using a <em>trap</em>, which is a function that responds to a specific operation.</p>
-<p>The reflection API, represented by the <code>Reflect</code> object, is a collection of methods that provide the default behavior for the same low-level operations that proxies can override. There is a <code>Reflect</code> method for every proxy trap. Those methods have the same name and are passed the same arguments as their respective proxy traps. Table 11-1 summarizes this behavior.</p>
-<p>{title=“Table 11-1: Proxy traps in JavaScript”} | Proxy Trap | Overrides the Behavior Of | Default Behavior | |————————–|—————————|——————| |<code>get</code> | Reading a property value | <code>Reflect.get()</code> | |<code>set</code> | Writing to a property | <code>Reflect.set()</code> | |<code>has</code> | The <code>in</code> operator | <code>Reflect.has()</code> | |<code>deleteProperty</code> | The <code>delete</code> operator | <code>Reflect.deleteProperty()</code> | |<code>getPrototypeOf</code> | <code>Object.getPrototypeOf()</code> | <code>Reflect.getPrototypeOf()</code> | |<code>setPrototypeOf</code> | <code>Object.setPrototypeOf()</code> | <code>Reflect.setPrototypeOf()</code> | |<code>isExtensible</code> | <code>Object.isExtensible()</code> | <code>Reflect.isExtensible()</code> | |<code>preventExtensions</code> | <code>Object.preventExtensions()</code> | <code>Reflect.preventExtensions()</code> | |<code>getOwnPropertyDescriptor</code>| <code>Object.getOwnPropertyDescriptor()</code> | <code>Reflect.getOwnPropertyDescriptor()</code> | |<code>defineProperty</code> | <code>Object.defineProperty()</code> | <code>Reflect.defineProperty</code> | |<code>ownKeys</code> | <code>Object.keys</code>, <code>Object.getOwnPropertyNames()</code>, <code>Object.getOwnPropertySymbols()</code> | <code>Reflect.ownKeys()</code> | |<code>apply</code> | Calling a function | <code>Reflect.apply()</code> | |<code>construct</code> | Calling a function with <code>new</code> | <code>Reflect.construct()</code> |</p>
+<p>The reflection API, represented by the <code>Reflect</code> object, is a collection of methods that provide the default behavior for the same low-level operations that proxies can override. There is a <code>Reflect</code> method for every proxy trap. Those methods have the same name and are passed the same arguments as their respective proxy traps.</p>
+<p><span>Table 11-1 summarizes this behavior.</span></p>
+<table style="font-size: 13px;">
+  <thead>
+    <tr><th><span>Proxy Trap</span>
+    </th><th><span>Overrides the Behavior Of</span></th>
+    <th><span>Default Behavior</span></th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>get</code></td>
+      <td><span>Reading a property value</span></td>
+      <td><code>Reflect.get()</code></td>
+    </tr>
+    <tr>
+      <td><code>set</code></td>
+      <td><span>Writing to a property</span></td>
+      <td><code>Reflect.set()</code></td>
+    </tr>
+    <tr>
+      <td><code>has</code></td>
+      <td><span>The </span><code>in</code><span> operator</span></td>
+      <td><code>Reflect.has()</code></td>
+    </tr>
+    <tr>
+      <td><code>deleteProperty</code></td>
+      <td><span>The </span><code>delete</code><span> operator</span></td>
+      <td><code>Reflect.deleteProperty()</code></td>
+    </tr>
+    <tr>
+      <td><code>getPrototypeOf</code></td>
+      <td><code>Object.getPrototypeOf()</code></td>
+      <td><code>Reflect.getPrototypeOf()</code></td>
+    </tr>
+    <tr>
+      <td><code>setPrototypeOf</code></td>
+      <td><code>Object.setPrototypeOf()</code></td>
+      <td><code>Reflect.setPrototypeOf()</code></td>
+    </tr>
+    <tr>
+      <td><code>isExtensible</code></td>
+      <td><code>Object.isExtensible()</code></td>
+      <td><code>Reflect.isExtensible()</code></td>
+    </tr>
+    <tr>
+      <td><code>preventExtensions</code></td>
+      <td><code>Object.preventExtensions()</code></td>
+      <td><code>Reflect.preventExtensions()</code></td>
+    </tr>
+    <tr>
+      <td><code>getOwnPropertyDescriptor</code></td>
+      <td><code>Object.getOwnPropertyDescriptor()</code></td>
+      <td><code>Reflect.getOwnPropertyDescriptor()</code></td>
+    </tr>
+    <tr>
+      <td><code>defineProperty</code></td>
+      <td><code>Object.defineProperty()</code></td>
+      <td><code>Reflect.defineProperty</code></td>
+    </tr>
+    <tr>
+      <td><code>ownKeys</code></td>
+      <td><code>Object.keys</code><span>, </span><code>Object.getOwnPropertyNames()</code><span>,
+        </span><code>Object.getOwnPropertySymbols()</code></td>
+      <td><code>Reflect.ownKeys()</code></td>
+    </tr>
+    <tr>
+      <td><code>apply</code></td>
+      <td><span>Calling a function</span></td>
+      <td><code>Reflect.apply()</code></td>
+    </tr>
+    <tr>
+      <td><code>construct</code></td>
+      <td><span>Calling a function with </span><code>new</code></td>
+      <td><code>Reflect.construct()</code></td>
+    </tr>
+  </tbody>
+</table>
 <p>Each trap overrides some built-in behavior of JavaScript objects, allowing you to intercept and modify the behavior. If you still need to use the built-in behavior, then you can use the corresponding reflection API method. The relationship between proxies and the reflection API becomes clear when you start creating proxies, so it’s best to dive in and look at some examples.</p>
 <blockquote>
 <p>The original ECMAScript 6 specification had an additional trap called <code>enumerate</code> that was designed to alter how <code>for-in</code> and <code>Object.keys()</code> enumerated properties on an object. However, the <code>enumerate</code> trap was removed in ECMAScript 7 (also called ECMAScript 2016) as difficulties were discovered during implementation. The <code>enumerate</code> trap no longer exists in any JavaScript environment and is therefore not covered in this chapter.</p>
